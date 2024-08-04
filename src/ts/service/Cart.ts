@@ -12,27 +12,19 @@ export default class Cart {
     }
 
     costWithoutDiscount(): number {
-        let cost = 0;
-        this._items.forEach(element => {
-            cost += element.price;
-        })
+        let cost = this._items.reduce((acc, item) => {
+            return acc + item.price;
+        }, 0);
         return cost;
     }
 
     discountedPrice(discount: number): number {
-        let cost = 0;
-        this._items.forEach(element => {
-            cost += element.price;
-        })
+        let cost = this.costWithoutDiscount();
         const result = (cost - cost * (discount / 100)).toFixed(2);
         return Number(result);
     }
 
     remove(id: number): void {
-        this._items.forEach((element, index) => {
-            if(element.id === id) {
-                this._items.splice(index, 1);
-            }
-        })
+        this._items = this._items.filter((item) => item.id !== id);
     }
 }
